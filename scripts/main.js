@@ -105,6 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
       smoothTouch: false
     });
     window.__lenis = lenis;
+    // Ensure native smooth scrolling is disabled to avoid double-easing
+    document.documentElement.style.scrollBehavior = 'auto';
     function raf(time){
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -383,7 +385,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const overlay = document.querySelector('.transition-overlay');
     const sr = document.getElementById('sr-announce');
     const mainEl = document.getElementById('main');
-    const links = Array.from(document.querySelectorAll('.site-nav a[href^="#"]'));
+    const navLinks = Array.from(document.querySelectorAll('.site-nav a[href^="#"]'));
+    const allHashLinks = Array.from(document.querySelectorAll('a[href^="#"]'));
     const getTarget = (hash) => document.querySelector(hash);
     const focusFirstHeading = (section) => {
       const h = section.querySelector('h1, h2, h3');
@@ -391,8 +394,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     const updateActiveNav = () => {
       const hash = location.hash || '#hero';
-      links.forEach((a) => a.removeAttribute('aria-current'));
-      const active = links.find((a) => a.getAttribute('href') === hash);
+      navLinks.forEach((a) => a.removeAttribute('aria-current'));
+      const active = navLinks.find((a) => a.getAttribute('href') === hash);
       if (active) active.setAttribute('aria-current','page');
     };
     updateActiveNav();
@@ -420,8 +423,12 @@ document.addEventListener("DOMContentLoaded", () => {
         window.gsap.timeline({ onComplete: resolve })
           .to(overlay, { duration: 0.28, ease: 'power2.in', scaleY: 1 })
           .add(() => {
-            if (window.__lenis) window.__lenis.scrollTo(target, { immediate: true, offset: -64 });
-            else target.scrollIntoView({ behavior: 'instant', block: 'start' });
+            if (window.__lenis) {
+              window.__lenis.scrollTo(target, { immediate: true, offset: -64 });
+            } else {
+              const top = target.getBoundingClientRect().top + window.pageYOffset - 64;
+              window.scrollTo({ top, left: 0, behavior: 'auto' });
+            }
             focusFirstHeading(target);
             overlay.style.transformOrigin = 'bottom center';
             // ensure reveals inside target are visible
@@ -432,7 +439,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
 
-    links.forEach((a) => {
+    allHashLinks.forEach((a) => {
       a.addEventListener('click', (e) => {
         const href = a.getAttribute('href');
         if (!href || !href.startsWith('#')) return;
@@ -444,6 +451,15 @@ document.addEventListener("DOMContentLoaded", () => {
         updateActiveNav();
       });
     });
+
+    // Apply navigation on initial hash to normalize scroll animation
+    if (location.hash && location.hash !== '#hero') {
+      const initialTarget = getTarget(location.hash);
+      if (initialTarget) {
+        // Use microtask to allow initial layout, then navigate
+        setTimeout(() => navigate(location.hash), 0);
+      }
+    }
   })();
 
   // Theme picker logic
