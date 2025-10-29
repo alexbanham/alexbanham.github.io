@@ -1,14 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log('[BOOT] main.js DOMContentLoaded', { host: location.host, ua: navigator.userAgent, time: new Date().toISOString() });
+  window.addEventListener('error', (e) => {
+    console.error('[GLOBAL ERROR]', { msg: e.message, file: e.filename, line: e.lineno, col: e.colno, err: e.error });
+  });
+  window.addEventListener('unhandledrejection', (e) => {
+    console.error('[UNHANDLED REJECTION]', e.reason);
+  });
+  const IS_GHPAGES = location.hostname.endsWith('github.io');
+  console.log('[ENV]', { IS_GHPAGES });
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
   // Simple intersection observer reveal (progressively enhanced)
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  console.log('[IO] using IntersectionObserver?', !prefersReduced && 'IntersectionObserver' in window);
   if (!prefersReduced && "IntersectionObserver" in window) {
     const revealEls = document.querySelectorAll(".reveal");
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          console.log('[IO] reveal', entry.target);
           entry.target.classList.add("is-visible");
           io.unobserve(entry.target);
         }
@@ -21,11 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Safety: if reveals are still hidden in production, force-show after load
   setTimeout(() => {
+    let forced = 0;
     document.querySelectorAll('.reveal').forEach((el) => {
-      if (!el.classList.contains('is-visible')) {
-        el.classList.add('is-visible');
-      }
+      if (!el.classList.contains('is-visible')) { el.classList.add('is-visible'); forced++; }
     });
+    console.log('[REVEAL] safety forced =', forced);
   }, 800);
 
   // Lightweight analytics: send custom events if Plausible present
@@ -97,7 +108,8 @@ document.addEventListener("DOMContentLoaded", () => {
   })();
 
   // Smooth scrolling with Lenis
-  if (!prefersReduced && window.Lenis) {
+  // Smooth scrolling: disable Lenis on GitHub Pages to avoid double-easing
+  if (!prefersReduced && window.Lenis && !location.hostname.endsWith('github.io')) {
     const lenis = new window.Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -112,6 +124,13 @@ document.addEventListener("DOMContentLoaded", () => {
       requestAnimationFrame(raf);
     }
     requestAnimationFrame(raf);
+    console.log('[LENIS] enabled');
+  }
+  else {
+    try { window.__lenis?.destroy?.(); } catch(_) {}
+    window.__lenis = null;
+    document.documentElement.style.scrollBehavior = 'smooth';
+    console.log('[LENIS] disabled; using native smooth');
   }
 
   // GSAP reveal enhancements
