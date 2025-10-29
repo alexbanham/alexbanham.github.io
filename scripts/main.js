@@ -142,21 +142,32 @@ document.addEventListener("DOMContentLoaded", () => {
     tl.from(".headline", { y: 20, opacity: 0, duration: 0.8, ease: "power3.out" })
       .from(".kicker", { y: 16, opacity: 0, duration: 0.6, ease: "power3.out" }, "-=0.4")
       .from(".cta .btn", { y: 12, opacity: 0, duration: 0.5, ease: "power3.out", stagger: 0.1 }, "-=0.3");
-
+    // Avoid GSAP setting inline opacity on cards in production (was leaving them 0)
     if (window.ScrollTrigger) {
-      document.querySelectorAll(".card").forEach((card) => {
-        window.gsap.from(card, {
-          y: 28,
-          opacity: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: card,
-            start: "top 85%",
-            toggleActions: "play none none reverse"
-          }
+      if (location.hostname.endsWith('github.io')) {
+        document.querySelectorAll('.card').forEach((card) => {
+          card.style.opacity = '';
+          card.style.transform = '';
+          card.classList.add('is-visible');
         });
-      });
+        console.log('[CARDS] GSAP card animations disabled on GH Pages');
+      } else {
+        document.querySelectorAll(".card").forEach((card) => {
+          window.gsap.from(card, {
+            y: 28,
+            opacity: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            },
+            onComplete: () => window.gsap.set(card, { clearProps: 'all' })
+          });
+        });
+      }
     }
   }
 
