@@ -19,6 +19,15 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
   }
 
+  // Safety: if reveals are still hidden in production, force-show after load
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach((el) => {
+      if (!el.classList.contains('is-visible')) {
+        el.classList.add('is-visible');
+      }
+    });
+  }, 800);
+
   // Lightweight analytics: send custom events if Plausible present
   (function initAnalytics(){
     const plausible = window.plausible;
@@ -29,6 +38,14 @@ document.addEventListener("DOMContentLoaded", () => {
         plausible(event, { props: { href: el.getAttribute('href') || '', text: (el.textContent||'').trim() } });
       });
     });
+  })();
+
+  // If landing directly on projects, reveal cards immediately
+  (function revealProjectsOnDirectHash(){
+    if (location.hash === '#projects') {
+      const section = document.querySelector('#projects');
+      if (section) section.querySelectorAll('.reveal').forEach((el)=>el.classList.add('is-visible'));
+    }
   })();
 
   // Optional hero video: uses data-src on #hero-video; respects reduced-motion and save-data
@@ -392,6 +409,8 @@ document.addEventListener("DOMContentLoaded", () => {
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
         focusFirstHeading(target);
+        // ensure reveals inside target are visible after nav
+        target.querySelectorAll('.reveal').forEach((el)=>el.classList.add('is-visible'));
         if (sr) sr.textContent = `Navigated to ${hash.replace('#','')}`;
         if (mainEl) mainEl.removeAttribute('aria-busy');
         return;
@@ -405,6 +424,8 @@ document.addEventListener("DOMContentLoaded", () => {
             else target.scrollIntoView({ behavior: 'instant', block: 'start' });
             focusFirstHeading(target);
             overlay.style.transformOrigin = 'bottom center';
+            // ensure reveals inside target are visible
+            target.querySelectorAll('.reveal').forEach((el)=>el.classList.add('is-visible'));
             if (sr) sr.textContent = `Navigated to ${hash.replace('#','')}`;
           })
           .to(overlay, { duration: 0.38, ease: 'power3.out', scaleY: 0, onComplete(){ if (mainEl) mainEl.removeAttribute('aria-busy'); } });
