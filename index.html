@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#ff8a3d">
+    <title>Alex Banham — Portfolio</title>
+    <meta name="description" content="Portfolio of Alex Banham — engineering, design, and interactive experiences.">
+    <meta property="og:title" content="Alex Banham — Portfolio">
+    <meta property="og:description" content="Engineering, design, and interactive web experiences.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alexbanham.github.io/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Alex Banham — Portfolio">
+    <meta name="twitter:description" content="Engineering, design, and interactive web experiences.">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23fff' d='M8 48L28 8h8l20 40h-9l-4.6-9.2H21.6L17 48H8Zm16.5-17.8h14.9L32.9 16h-1.8l-6.6 14.2Z'/%3E%3C/svg%3E">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="container">
+            <div class="brand">
+                <div class="logo-kinetic" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" width="32" height="32" role="img" aria-label="Alex Banham monogram">
+                        <defs>
+                            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="var(--primary)"/>
+                                <stop offset="100%" stop-color="var(--ocean)"/>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="32" cy="32" r="15" fill="none" stroke="url(#g1)" stroke-width="2" opacity="0.9"/>
+                        <circle cx="32" cy="32" r="22" fill="none" stroke="url(#g1)" stroke-width="2" opacity="0.6"/>
+                        <circle cx="32" cy="32" r="28" fill="none" stroke="url(#g1)" stroke-width="2" opacity="0.35"/>
+                        <g id="orbits">
+                            <circle cx="32" cy="10" r="2" fill="var(--c4)"/>
+                            <circle cx="54" cy="32" r="2" fill="var(--c4)"/>
+                            <circle cx="32" cy="54" r="2" fill="var(--c4)"/>
+                            <circle cx="10" cy="32" r="2" fill="var(--c4)"/>
+                        </g>
+                        <path d="M22 40 L32 16 L42 40 Z" fill="url(#g1)" opacity="0.9"/>
+                    </svg>
+                </div>
+                <span class="name">Alex Banham</span>
+            </div>
+            <nav class="site-nav" aria-label="Primary" role="navigation">
+                <a href="#about" data-analytics data-event="Nav: About">About</a>
+                <a href="#projects" data-analytics data-event="Nav: Projects">Projects</a>
+                <a href="#contact" data-analytics data-event="Nav: Contact">Contact</a>
+                <a href="./media/Alex%20Banham%20Resume.pdf" download aria-label="Download resume (PDF)" data-analytics data-event="Resume: Download (header)">Resume</a>
+                <div class="theme-swatches" role="group" aria-label="Color theme" style="margin-left:12px">
+                    <button class="swatch p1" type="button" data-theme="palette-1" aria-label="Coastal" aria-pressed="false"></button>
+                    <button class="swatch p2" type="button" data-theme="palette-2" aria-label="Sunset Coral" aria-pressed="false"></button>
+                    <button class="swatch p3" type="button" data-theme="palette-3" aria-label="Golden Coast" aria-pressed="false"></button>
+                    <button class="swatch p4" type="button" data-theme="palette-4" aria-label="Light Navy" aria-pressed="false"></button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <section id="hero" class="section hero" aria-labelledby="hero-heading">
+            <div class="hero-bg" aria-hidden="true">
+                <canvas id="hero-canvas"></canvas>
+                <video id="hero-video" class="hero-video" data-src="./media/SD%20BG%20Footage.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="hero-gradient" aria-hidden="true"></div>
+                <div class="hero-scrim" aria-hidden="true"></div>
+            </div>
+            <div class="container">
+                <h1 id="hero-heading" class="headline">Full‑stack software engineer in San Diego building robust, API‑first products</h1>
+                <p class="kicker">FastAPI/Node • React/TypeScript • AWS DevOps • Auth/Twilio/AI integrations</p>
+                <div class="cta">
+                    <a class="btn primary" href="#projects" data-analytics data-event="Nav: View work">View work</a>
+                    <a class="btn ghost" href="./media/Alex%20Banham%20Resume.pdf" download data-analytics data-event="Resume: Download (hero)">Download resume</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section about" aria-labelledby="about-heading" role="region">
+            <div class="container">
+                <h2 id="about-heading">About</h2>
+                <p>Hi, I’m Alex — a full‑stack software engineer based in San Diego, CA. I’ve shipped production systems across the stack: building API‑first backends, integrating complex third‑party services, and delivering modern UIs.</p>
+                <p>Recent work includes FastAPI services powering an agentic phone/SMS platform, React/TypeScript frontends (Vite, Next.js), and integrations with Auth0, Twilio, OpenAI, and industry APIs. I also handle DevOps for AWS Lightsail/EC2, S3, MongoDB, RDS, Docker, and Vercel.</p>
+                <p>I value robust engineering practices (security, reliability, CI/CD), clear communication, and using AI tools to accelerate development while maintaining quality. B.S. Computer Science, Cal Poly SLO (2025).</p>
+            </div>
+        </section>
+
+        <section id="projects" class="section projects" aria-labelledby="projects-heading" role="region">
+            <div class="container">
+                <h2 id="projects-heading">Projects</h2>
+                <div class="grid projects-grid">
+                    <article class="card reveal" aria-label="Fantasy Football Analytics Platform">
+                        <div class="card-media"><img src="./media/fantasyapppng.PNG" alt="Fantasy Football Analytics app dashboard preview"></div>
+                        <div class="card-body">
+                            <h3>Fantasy Football Analytics Platform</h3>
+                            <p>Full‑stack app with live NFL scores, AI‑powered insights, projections, and dashboard. Built with Node/Express, MongoDB, and React/TypeScript.</p>
+                            <p class="cta" style="margin-top:12px">
+                                <a class="btn small primary" href="https://fantasyapp.vercel.app" target="_blank" rel="noopener" data-analytics data-event="Project: FantasyApp Live">View Live</a>
+                                <a class="btn small ghost" href="https://github.com/alexbanham/fantasyapp" target="_blank" rel="noopener" data-analytics data-event="Project: FantasyApp GitHub">GitHub</a>
+                            </p>
+                        </div>
+                    </article>
+                    <article class="card reveal" aria-label="GitHub Highlights">
+                        <div class="card-media"><img src="./media/githubpng.PNG" alt="GitHub profile repositories preview"></div>
+                        <div class="card-body">
+                            <h3>GitHub Highlights</h3>
+                            <p>Selected repos and experiments in TypeScript, React, animation, and data visualization.</p>
+                            <p class="cta" style="margin-top:12px"><a class="btn small ghost" href="https://github.com/alexbanham" target="_blank" rel="noopener" data-analytics data-event="Profile: GitHub">Browse GitHub</a></p>
+                        </div>
+                    </article>
+                    <article class="card reveal" aria-label="Professional Profile" data-link="https://www.linkedin.com/in/alexbanham/" role="link" tabindex="0">
+                        <div class="card-media"><img src="./media/Web_Photo_Editor.jpg" alt="Alex Banham professional profile photo"></div>
+                        <div class="card-body">
+                            <h3>Professional Profile</h3>
+                            <p>Experience, skills, and recent work. Let’s connect and chat opportunities in San Diego or remote.</p>
+                            <p class="cta" style="margin-top:12px"><a class="btn small ghost" href="https://www.linkedin.com/in/alexbanham/" target="_blank" rel="noopener" data-analytics data-event="Profile: LinkedIn">Open LinkedIn</a></p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section contact" aria-labelledby="contact-heading" role="region">
+            <div class="container">
+                <h2 id="contact-heading">Contact</h2>
+                <p>Interested in collaborating? Drop me a note or connect.</p>
+                <div class="cta">
+                    <a class="btn primary" href="mailto:alexbanham2016@gmail.com" data-analytics data-event="Contact: Email">alexbanham2016@gmail.com</a>
+                    <a class="btn ghost" href="https://linkedin.com/in/alexbanham" target="_blank" rel="noopener" data-analytics data-event="Contact: LinkedIn">LinkedIn</a>
+                    <a class="btn ghost" href="https://github.com/alexbanham" target="_blank" rel="noopener" data-analytics data-event="Contact: GitHub">GitHub</a>
+                </div>
+                <p class="small-note">Prefer a PDF? <a class="inline-link" href="./media/Alex%20Banham%20Resume.pdf" download data-analytics data-event="Resume: Download (contact)">Download my resume</a>.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <span>© <span id="year"></span> Alex Banham</span>
+            <div style="display:flex;gap:16px;align-items:center">
+                <a class="small" href="https://github.com/alexbanham" target="_blank" rel="noopener" data-analytics data-event="Footer: GitHub">GitHub</a>
+                <a class="small" href="https://www.linkedin.com/in/alexbanham/" target="_blank" rel="noopener" data-analytics data-event="Footer: LinkedIn">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <div class="transition-overlay" aria-hidden="true"></div>
+    <div id="sr-announce" class="sr-only" role="status" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.37/bundled/lenis.min.js"></script>
+    <script defer data-domain="alexbanham.github.io" src="https://plausible.io/js/script.js"></script>
+    <script type="module" src="./scripts/main.js"></script>
+</body>
+</html>
+
+
