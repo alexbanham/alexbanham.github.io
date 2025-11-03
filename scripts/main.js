@@ -435,38 +435,23 @@ document.addEventListener("DOMContentLoaded", () => {
       const target = getTarget(hash);
       if (!target) return;
       if (mainEl) mainEl.setAttribute('aria-busy','true');
-      if (prefersReduced || !window.gsap || !overlay) {
-        if (window.__lenis) {
-          window.__lenis.scrollTo(target, { offset: -64 });
-        } else {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+      
+      // Simple smooth scroll without overlay animation
+      if (window.__lenis) {
+        window.__lenis.scrollTo(target, { offset: -64, duration: 1.2 });
+      } else {
+        const top = target.getBoundingClientRect().top + window.pageYOffset - 64;
+        window.scrollTo({ top, left: 0, behavior: 'smooth' });
+      }
+      
+      // Wait a bit for scroll to complete, then clean up
+      setTimeout(() => {
         focusFirstHeading(target);
         // ensure reveals inside target are visible after nav
         target.querySelectorAll('.reveal').forEach((el)=>el.classList.add('is-visible'));
         if (sr) sr.textContent = `Navigated to ${hash.replace('#','')}`;
         if (mainEl) mainEl.removeAttribute('aria-busy');
-        return;
-      }
-      return new Promise((resolve) => {
-        overlay.style.transformOrigin = 'top center';
-        window.gsap.timeline({ onComplete: resolve })
-          .to(overlay, { duration: 0.28, ease: 'power2.in', scaleY: 1 })
-          .add(() => {
-            if (window.__lenis) {
-              window.__lenis.scrollTo(target, { immediate: true, offset: -64 });
-            } else {
-              const top = target.getBoundingClientRect().top + window.pageYOffset - 64;
-              window.scrollTo({ top, left: 0, behavior: 'auto' });
-            }
-            focusFirstHeading(target);
-            overlay.style.transformOrigin = 'bottom center';
-            // ensure reveals inside target are visible
-            target.querySelectorAll('.reveal').forEach((el)=>el.classList.add('is-visible'));
-            if (sr) sr.textContent = `Navigated to ${hash.replace('#','')}`;
-          })
-          .to(overlay, { duration: 0.38, ease: 'power3.out', scaleY: 0, onComplete(){ if (mainEl) mainEl.removeAttribute('aria-busy'); } });
-      });
+      }, prefersReduced ? 100 : 600);
     };
 
     allHashLinks.forEach((a) => {
