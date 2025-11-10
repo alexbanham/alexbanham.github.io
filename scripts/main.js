@@ -59,53 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })();
 
-  // Optional hero video: uses data-src on #hero-video; respects reduced-motion and save-data
-  (async function initHeroVideo(){
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const saveData = navigator.connection && navigator.connection.saveData;
-    const video = document.getElementById('hero-video');
-    if (!video || prefersReduced || saveData) return;
-    const src = video.getAttribute('data-src');
-    if (!src) return;
-    try {
-      const res = await fetch(src, { method: 'HEAD' });
-      if (!res.ok) return; // no video available
-      video.setAttribute('src', src);
-      video.style.display = 'block';
-      const canvas = document.getElementById('hero-canvas');
-      if (canvas) canvas.style.display = 'none';
-      await video.play().catch(() => {});
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) video.pause(); else video.play().catch(()=>{});
-      });
-
-      // Custom loop point (e.g., stop before watermark): 2:59.5 (179.5s)
-      const CUSTOM_LOOP_TIME = 179.5;
-      const resetTo = 0.02; // small offset to avoid potential first-frame flash
-
-      // Guard for very short videos
-      const applyCustomLoop = () => {
-        // If duration exists and loop point is valid
-        if (Number.isFinite(video.duration) && video.duration > 1) {
-          video.addEventListener('timeupdate', () => {
-            if (video.currentTime >= CUSTOM_LOOP_TIME) {
-              try {
-                video.currentTime = resetTo;
-                // some browsers require play to resume after setting currentTime
-                if (video.paused) video.play().catch(()=>{});
-              } catch (_) {}
-            }
-          });
-          video.addEventListener('ended', () => {
-            try { video.currentTime = resetTo; video.play().catch(()=>{}); } catch(_) {}
-          });
-        }
-      };
-
-      if (video.readyState >= 1) applyCustomLoop();
-      else video.addEventListener('loadedmetadata', applyCustomLoop, { once: true });
-    } catch (_) { /* ignore */ }
-  })();
+  // Hero background image (replaced video with static image)
+  // Image is loaded directly in HTML with loading="eager" for immediate display
 
   // Smooth scrolling with Lenis
   // Smooth scrolling: disable Lenis on GitHub Pages to avoid double-easing
@@ -262,152 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   })();
 
-  // WebGL hero (Three.js shader)
-  const getCSSHexColor = (varName) => {
-    const v = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-    // supports #RRGGBB
-    return v || '#ffffff';
-  };
-  const hexToThreeColor = (hex) => {
-    const THREE = window.THREE;
-    return new THREE.Color(hex);
-  };
-
-  try {
-    const canvas = document.getElementById('hero-canvas');
-    const canUseWebGL = () => {
-      try {
-        const c = document.createElement('canvas');
-        return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
-      } catch (_) { return false; }
-    };
-    const lowPower = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2;
-    const saveData = navigator.connection && navigator.connection.saveData;
-    if (!prefersReduced && canvas && window.THREE && canUseWebGL() && !lowPower && !saveData) {
-      const THREE = window.THREE;
-      const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-      renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-
-      const scene = new THREE.Scene();
-      const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-
-      const uniforms = {
-        u_time: { value: 0 },
-        u_resolution: { value: new THREE.Vector2() },
-        u_accentA: { value: hexToThreeColor(getCSSHexColor('--primary')) },
-        u_accentB: { value: hexToThreeColor(getCSSHexColor('--ocean')) },
-        u_mouse: { value: new THREE.Vector2(0.5, 0.3) }
-      };
-
-      const vertex = `
-        varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          gl_Position = vec4(position, 1.0);
-        }
-      `;
-
-      const fragment = `
-        precision highp float;
-        varying vec2 vUv;
-        uniform vec2 u_resolution;
-        uniform float u_time;
-        uniform vec3 u_accentA;
-        uniform vec3 u_accentB;
-        uniform vec2 u_mouse;
-
-        // Simple fbm noise
-        float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453123); }
-        float noise(in vec2 p){
-          vec2 i = floor(p);
-          vec2 f = fract(p);
-          float a = hash(i);
-          float b = hash(i + vec2(1.0, 0.0));
-          float c = hash(i + vec2(0.0, 1.0));
-          float d = hash(i + vec2(1.0, 1.0));
-          vec2 u = f*f*(3.0-2.0*f);
-          return mix(a, b, u.x) + (c - a)*u.y*(1.0 - u.x) + (d - b)*u.x*u.y;
-        }
-        float fbm(vec2 p){
-          float v = 0.0;
-          float a = 0.5;
-          for(int i=0;i<5;i++){
-            v += a * noise(p);
-            p *= 2.0; a *= 0.5;
-          }
-          return v;
-        }
-
-        void main(){
-          vec2 uv = vUv;
-          vec2 st = uv * u_resolution.xy / max(u_resolution.x, u_resolution.y);
-          vec2 m = u_mouse;
-          vec2 flow = vec2(
-            fbm(st * 1.2 + m * 0.3 + u_time * 0.05),
-            fbm(st * 1.1 - m * 0.2 - u_time * 0.04)
-          );
-          float n = fbm(st * 2.0 + flow * 1.2 + u_time * 0.06);
-          float glow = smoothstep(0.35, 0.95, n);
-          vec3 col = mix(u_accentA, u_accentB, glow);
-          // Vignette and depth tint
-          float d = distance(uv, vec2(0.7, 0.2));
-          col *= 1.0 - smoothstep(0.6, 1.2, d);
-          gl_FragColor = vec4(col, 0.9);
-        }
-      `;
-
-      const geometry = new THREE.PlaneGeometry(2, 2);
-      const material = new THREE.ShaderMaterial({ uniforms, vertexShader: vertex, fragmentShader: fragment, transparent: true });
-      const mesh = new THREE.Mesh(geometry, material);
-      scene.add(mesh);
-
-      const onResize = () => {
-        const { clientWidth, clientHeight } = canvas;
-        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-        renderer.setPixelRatio(dpr);
-        renderer.setSize(clientWidth, clientHeight, false);
-        uniforms.u_resolution.value.set(clientWidth * dpr, clientHeight * dpr);
-      };
-      const ro = new ResizeObserver(onResize);
-      ro.observe(canvas);
-      onResize();
-
-      let rafId = 0;
-      const start = performance.now();
-      const tick = () => {
-        uniforms.u_time.value = (performance.now() - start) / 1000;
-        renderer.render(scene, camera);
-        rafId = requestAnimationFrame(tick);
-      };
-      tick();
-
-      // update shader colors on theme change
-      window.addEventListener('themechange', () => {
-        uniforms.u_accentA.value = hexToThreeColor(getCSSHexColor('--primary'));
-        uniforms.u_accentB.value = hexToThreeColor(getCSSHexColor('--ocean'));
-      });
-
-      // gentle mouse parallax
-      window.addEventListener('pointermove', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width;
-        const y = (e.clientY - rect.top) / rect.height;
-        uniforms.u_mouse.value.x += (x - uniforms.u_mouse.value.x) * 0.08;
-        uniforms.u_mouse.value.y += (y - uniforms.u_mouse.value.y) * 0.08;
-      }, { passive: true });
-
-      // pause when tab hidden
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) cancelAnimationFrame(rafId); else tick();
-      });
-    } else if (canvas) {
-      // Hide canvas if we skip WebGL
-      canvas.style.display = 'none';
-    }
-  } catch (err) {
-    // fail silently; hero gradient remains
-  }
+  // WebGL canvas removed - using static image background instead
 
   // Hash navigation + page-like transitions
   (function initPageTransitions(){
@@ -532,6 +342,99 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     update();
     window.addEventListener('scroll', update, { passive: true });
+  })();
+
+  // Mobile menu toggle
+  (function initMobileMenu(){
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    const nav = document.querySelector('.site-nav');
+    if (!toggle || !nav) return;
+
+    const openMenu = () => {
+      toggle.setAttribute('aria-expanded', 'true');
+      nav.classList.add('mobile-open');
+      nav.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeMenu = () => {
+      toggle.setAttribute('aria-expanded', 'false');
+      nav.classList.remove('mobile-open');
+      nav.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    };
+
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      if (isOpen) closeMenu();
+      else openMenu();
+    });
+
+    // Close menu when clicking nav links
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+      }
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (toggle.getAttribute('aria-expanded') === 'true' && 
+          !nav.contains(e.target) && 
+          !toggle.contains(e.target)) {
+        closeMenu();
+      }
+    });
+  })();
+
+  // Back to top button
+  (function initBackToTop(){
+    const button = document.querySelector('.back-to-top');
+    if (!button) return;
+
+    const updateVisibility = () => {
+      if (window.scrollY > 300) {
+        button.classList.add('visible');
+      } else {
+        button.classList.remove('visible');
+      }
+    };
+
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+    updateVisibility();
+
+    button.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (window.__lenis) {
+        window.__lenis.scrollTo(0, { duration: 1.2 });
+      }
+    });
+  })();
+
+  // Scroll indicator click handler
+  (function initScrollIndicator(){
+    const indicator = document.querySelector('.scroll-indicator');
+    if (!indicator) return;
+
+    indicator.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector('#about');
+      if (target) {
+        if (window.__lenis) {
+          window.__lenis.scrollTo(target, { offset: -64, duration: 1.2 });
+        } else {
+          const top = target.getBoundingClientRect().top + window.pageYOffset - 64;
+          window.scrollTo({ top, left: 0, behavior: 'smooth' });
+        }
+      }
+    });
   })();
 });
 
