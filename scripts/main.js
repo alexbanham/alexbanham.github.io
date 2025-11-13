@@ -287,42 +287,100 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })();
 
-  // Theme picker logic
+  // Theme picker logic - palette-2 is now the only available theme
   (function initThemePicker(){
-    const swatches = Array.from(document.querySelectorAll('.theme-swatches .swatch'));
-    const apply = (val) => {
-      document.documentElement.setAttribute('data-theme', val);
-      localStorage.setItem('theme', val);
-      window.dispatchEvent(new Event('themechange'));
-      swatches.forEach(btn => btn.setAttribute('aria-pressed', String(btn.getAttribute('data-theme') === val)));
-    };
-    const saved = localStorage.getItem('theme');
-    const initial = saved || 'palette-1';
-    apply(initial);
-    swatches.forEach(btn => btn.addEventListener('click', () => apply(btn.getAttribute('data-theme'))));
+    // Always apply palette-2 as the default and only theme
+    document.documentElement.setAttribute('data-theme', 'palette-2');
+    // Clear any saved theme preference to ensure palette-2 is always used
+    localStorage.removeItem('theme');
+    window.dispatchEvent(new Event('themechange'));
   })();
 
-  // Animated kinetic logo interactions
-  (function initKineticLogo(){
-    const el = document.querySelector('.logo-kinetic svg');
-    if (!el || !window.gsap) return;
-    const orbits = el.querySelector('#orbits');
-    // slow continuous rotation
-    window.gsap.to(orbits, { rotate: 360, transformOrigin: '32px 32px', repeat: -1, duration: 18, ease: 'none' });
-    // hover pulse
-    const wrapper = document.querySelector('.logo-kinetic');
-    if (wrapper){
-      wrapper.addEventListener('pointerenter', () => {
-        window.gsap.to(wrapper, { duration: 0.3, scale: 1.06, ease: 'power2.out' });
-      });
-      wrapper.addEventListener('pointerleave', () => {
-        window.gsap.to(wrapper, { duration: 0.4, scale: 1.0, ease: 'power3.out' });
-      });
-      wrapper.addEventListener('pointermove', (e) => {
-        const rect = wrapper.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        window.gsap.to(el, { duration: 0.3, rotateX: y * -8, rotateY: x * 8, transformOrigin: 'center' });
+  // Sci-fi parallax header background animations
+  (function initHeaderParallax(){
+    const header = document.querySelector('.site-header');
+    const headerBg = document.querySelector('.header-bg');
+    if (!header || !headerBg) return;
+    
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+    
+    const layers = headerBg.querySelectorAll('.bg-layer');
+    const particlesLayer = headerBg.querySelector('.bg-particles');
+    const glowLayer = headerBg.querySelector('.bg-glow');
+    
+    // Parallax on mouse move (relative to header)
+    let mouseX = 0, mouseY = 0;
+    let targetX = 0, targetY = 0;
+    
+    const handleMouseMove = (e) => {
+      const rect = header.getBoundingClientRect();
+      mouseX = (e.clientX - rect.left - rect.width / 2) / rect.width;
+      mouseY = (e.clientY - rect.top - rect.height / 2) / rect.height;
+    };
+    
+    const animateParallax = () => {
+      targetX += (mouseX - targetX) * 0.1;
+      targetY += (mouseY - targetY) * 0.1;
+      
+      // Combine mouse and scroll parallax
+      const scrollOffset = Math.min(scrollY * 0.05, 10);
+      
+      if (particlesLayer) {
+        const particleX = targetX * -18;
+        const particleY = targetY * -18 + scrollOffset * 0.8;
+        particlesLayer.style.transform = `translate(${particleX}px, ${particleY}px)`;
+      }
+      
+      if (glowLayer) {
+        const glowX = targetX * 25;
+        const glowY = targetY * 25 + scrollOffset * 0.3;
+        glowLayer.style.transform = `translate(${glowX}px, ${glowY}px)`;
+      }
+      
+      requestAnimationFrame(animateParallax);
+    };
+    
+    // Scroll-based parallax (subtle vertical movement)
+    let scrollY = 0;
+    const handleScroll = () => {
+      scrollY = window.scrollY;
+    };
+    
+    // Hover intensity boost on header
+    header.addEventListener('pointerenter', () => {
+      headerBg.style.opacity = '1';
+      if (glowLayer) {
+        glowLayer.style.opacity = '1';
+      }
+      if (particlesLayer) {
+        particlesLayer.style.opacity = '0.9';
+      }
+    });
+    
+    header.addEventListener('pointerleave', () => {
+      headerBg.style.opacity = '1';
+      if (glowLayer) {
+        glowLayer.style.opacity = '0.8';
+      }
+      if (particlesLayer) {
+        particlesLayer.style.opacity = '0.7';
+      }
+    });
+    
+    header.addEventListener('pointermove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    animateParallax();
+    
+    // GSAP enhancements if available
+    if (window.gsap && glowLayer) {
+      window.gsap.to(glowLayer, {
+        scale: 1.2,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'power2.inOut'
       });
     }
   })();
