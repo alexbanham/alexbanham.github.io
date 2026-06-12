@@ -1,281 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="color-scheme" content="dark light">
-    <meta name="theme-color" content="#ff8a3d">
-    <title>Alex Banham — Portfolio</title>
-    <meta name="description" content="Portfolio of Alex Banham — engineering, design, and interactive experiences.">
-    <meta property="og:title" content="Alex Banham — Portfolio">
-    <meta property="og:description" content="Engineering, design, and interactive web experiences.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f3ead8">
+    <title>Alex Banham — Applied AI & Data Platform Engineer</title>
+    <meta name="description" content="Alex Banham is an applied AI and data platform engineer building reliable products, services, and pipelines.">
+    <meta property="og:title" content="Alex Banham — Applied AI & Data Platform Engineer">
+    <meta property="og:description" content="Products, data platforms, and applied AI systems built end to end.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://alexbanham.github.io/">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Alex Banham — Portfolio">
-    <meta name="twitter:description" content="Engineering, design, and interactive web experiences.">
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <script>document.documentElement.classList.add('js');</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles/styles.css">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23fff' d='M8 48L28 8h8l20 40h-9l-4.6-9.2H21.6L17 48H8Zm16.5-17.8h14.9L32.9 16h-1.8l-6.6 14.2Z'/%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231d4d68'/%3E%3Cpath fill='%23f3ead8' d='M9 49 27 13h10l18 36H44l-3-7H23l-3 7Zm18-16h10l-5-12Z'/%3E%3C/svg%3E">
 </head>
 <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#profile">Skip to profile</a>
+
     <header class="site-header">
-        <div class="header-bg" aria-hidden="true">
-            <div class="bg-layer bg-particles"></div>
-            <div class="bg-layer bg-glow"></div>
-        </div>
-        <div class="container">
-            <div class="brand">
-                <span class="name">Alex Banham</span>
-            </div>
-            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <nav class="site-nav" id="site-nav" aria-label="Primary" role="navigation">
-                <a href="#about" data-analytics data-event="Nav: About">About</a>
-                <a href="#projects" data-analytics data-event="Nav: Projects">Projects</a>
-                <a href="#contact" data-analytics data-event="Nav: Contact">Contact</a>
-                <a href="./media/Alex%20Banham%20Resume.pdf" download aria-label="Download resume (PDF)" data-analytics data-event="Resume: Download (header)">Resume</a>
-                <div class="theme-swatches" role="group" aria-label="Color theme">
-                    <button class="swatch p1" type="button" data-theme="palette-1" aria-label="Coastal" aria-pressed="false"></button>
-                    <button class="swatch p2" type="button" data-theme="palette-2" aria-label="Sunset Coral" aria-pressed="false"></button>
-                    <button class="swatch p3" type="button" data-theme="palette-3" aria-label="Golden Coast" aria-pressed="false"></button>
-                    <button class="swatch p4" type="button" data-theme="palette-4" aria-label="Light Navy" aria-pressed="false"></button>
-                </div>
-            </nav>
-        </div>
+        <a class="wordmark" href="#top" aria-label="Alex Banham, home">AB<span>/</span>26</a>
+        <nav aria-label="Primary navigation">
+            <a href="#profile">Profile</a>
+            <a href="#scope">Scope</a>
+            <a href="#contact">Contact</a>
+        </nav>
     </header>
 
-    <main id="main">
-        <section id="hero" class="section hero" aria-labelledby="hero-heading">
-            <div class="hero-bg" aria-hidden="true">
-                <img src="./media/Balboa-Park-Golf-Course-1.jpg" alt="" class="hero-image" loading="eager">
-                <div class="hero-overlay" aria-hidden="true"></div>
+    <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-meta">
+                <span>San Diego, CA</span>
+                <span>Products / platforms / applied AI</span>
             </div>
-            <div class="container">
-                <h1 id="hero-heading" class="headline">San Diego Based Full‑stack software engineer building robust, API-First products</h1>
-                <p class="kicker">REST APIs • Frontend / Backend Integrations • General DevOps • Auth0/Twilio/AI Experience</p>
-                <div class="cta">
-                    <a class="btn primary" href="#projects" data-analytics data-event="Nav: View work">View work</a>
-                    <a class="btn ghost" href="./media/Alex%20Banham%20Resume.pdf" download data-analytics data-event="Resume: Download (hero)">Download resume</a>
-                </div>
-                <a href="#about" class="scroll-indicator" aria-label="Scroll to about section">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
-                    </svg>
-                </a>
+            <div class="hero-intro">
+                <p class="hero-eyebrow">Hello, I’m</p>
+                <h1 id="hero-title">Alex Banham</h1>
+                <p class="hero-role">Applied AI &amp; Data Platform Engineer</p>
+            </div>
+            <div class="hero-bottom">
+                <p>I bring ideas into focus and build the software needed to make them work.</p>
+                <a class="arrow-link" href="#profile">Read profile <span aria-hidden="true">↓</span></a>
             </div>
         </section>
 
-        <section id="about" class="section about" aria-labelledby="about-heading" role="region">
-            <div class="container">
-                <h2 id="about-heading">About</h2>
-                <div class="about-content">
-                    <p>Hi, I'm Alex — a full‑stack software engineer based in San Diego, CA. I've shipped production systems across the stack: building API‑first backends, integrating complex third‑party services, and delivering modern UIs.</p>
-                    <p>Recent work includes FastAPI services powering an agentic phone/SMS platform, React/TypeScript frontends (Vite, Next.js), and integrations with Auth0, Twilio, OpenAI, and industry APIs. I also handle DevOps for AWS Lightsail/EC2, S3, MongoDB, RDS, Docker, and Vercel.</p>
-                    <p>I value robust engineering practices (security, reliability, CI/CD), clear communication, and using AI tools to accelerate development while maintaining quality. B.S. Computer Science, Cal Poly SLO (2025).</p>
-                    
-                    <div class="skills-section">
-                        <h3>Technologies & Tools</h3>
-                        <div class="skills-grid">
-                            <div class="skill-category">
-                                <h4>Frontend</h4>
-                                <div class="skill-tags">
-                                    <span class="skill-badge">React</span>
-                                    <span class="skill-badge">TypeScript</span>
-                                    <span class="skill-badge">Next.js</span>
-                                    <span class="skill-badge">Vite</span>
-                                </div>
-                            </div>
-                            <div class="skill-category">
-                                <h4>Backend</h4>
-                                <div class="skill-tags">
-                                    <span class="skill-badge">FastAPI</span>
-                                    <span class="skill-badge">Node.js</span>
-                                    <span class="skill-badge">Express</span>
-                                    <span class="skill-badge">Python</span>
-                                </div>
-                            </div>
-                            <div class="skill-category">
-                                <h4>DevOps & Cloud</h4>
-                                <div class="skill-tags">
-                                    <span class="skill-badge">AWS</span>
-                                    <span class="skill-badge">Docker</span>
-                                    <span class="skill-badge">MongoDB</span>
-                                    <span class="skill-badge">PostgreSQL</span>
-                                </div>
-                            </div>
-                            <div class="skill-category">
-                                <h4>Integrations</h4>
-                                <div class="skill-tags">
-                                    <span class="skill-badge">Auth0</span>
-                                    <span class="skill-badge">Twilio</span>
-                                    <span class="skill-badge">OpenAI</span>
-                                    <span class="skill-badge">REST APIs</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <section class="profile" id="profile" aria-labelledby="profile-title">
+            <p class="section-label">01 / Profile</p>
+            <div class="profile-copy">
+                <h2 id="profile-title">I turn complex ideas into clear, dependable software.</h2>
+                <p>My work spans product engineering, data platforms, integrations, backend services, and applied AI. I take a need from early conversations through design, implementation, deployment, and ongoing improvement.</p>
+                <p>I focus on understanding the real problem, choosing the right approach, and delivering software that is useful, maintainable, and ready for people to depend on.</p>
             </div>
         </section>
 
-        <section id="projects" class="section projects" aria-labelledby="projects-heading" role="region">
-            <div class="container">
-                <h2 id="projects-heading">Projects</h2>
-                <div class="grid projects-grid">
-                    <article class="card reveal" aria-label="Fantasy Football Analytics Platform">
-                        <div class="card-media">
-                            <img src="./media/fantasyapppng.PNG" alt="Fantasy Football Analytics app dashboard preview" width="800" height="450" loading="lazy">
-                            <div class="card-overlay">
-                                <span class="tech-badge">React</span>
-                                <span class="tech-badge">TypeScript</span>
-                                <span class="tech-badge">Node.js</span>
-                                <span class="tech-badge">MongoDB</span>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h3>Fantasy Football Analytics Platform</h3>
-                            <p>Full‑stack app with live NFL scores, AI‑powered insights, projections, and dashboard. Built with Node/Express, MongoDB, and React/TypeScript.</p>
-                            <div class="card-actions">
-                                <a class="btn small primary" href="https://fantasyapp.vercel.app" target="_blank" rel="noopener" data-analytics data-event="Project: FantasyApp Live">
-                                    View Live
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                                    </svg>
-                                </a>
-                                <a class="btn small ghost" href="https://github.com/alexbanham/fantasyapp" target="_blank" rel="noopener" data-analytics data-event="Project: FantasyApp GitHub">
-                                    GitHub
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="card reveal" aria-label="GitHub Highlights">
-                        <div class="card-media">
-                            <img src="./media/githubpng.PNG" alt="GitHub profile repositories preview" width="800" height="450" loading="lazy">
-                            <div class="card-overlay">
-                                <span class="tech-badge">TypeScript</span>
-                                <span class="tech-badge">React</span>
-                                <span class="tech-badge">Open Source</span>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h3>GitHub Highlights</h3>
-                            <p>Selected repos and experiments in TypeScript, React, animation, and data visualization.</p>
-                            <div class="card-actions">
-                                <a class="btn small ghost" href="https://github.com/alexbanham" target="_blank" rel="noopener" data-analytics data-event="Profile: GitHub">
-                                    Browse GitHub
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="card reveal" aria-label="Professional Profile" data-link="https://www.linkedin.com/in/alexbanham/" role="link" tabindex="0">
-                        <div class="card-media">
-                            <img src="./media/Web_Photo_Editor.jpg" alt="Alex Banham professional profile photo" width="800" height="450" loading="lazy">
-                            <div class="card-overlay">
-                                <span class="tech-badge">LinkedIn</span>
-                                <span class="tech-badge">Networking</span>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h3>Professional Profile</h3>
-                            <p>Experience, skills, and recent work. Let's connect and chat opportunities in San Diego or remote.</p>
-                            <div class="card-actions">
-                                <a class="btn small ghost" href="https://www.linkedin.com/in/alexbanham/" target="_blank" rel="noopener" data-analytics data-event="Profile: LinkedIn">
-                                    Open LinkedIn
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+        <section class="scope" id="scope" aria-labelledby="scope-title">
+            <div class="scope-heading">
+                <p class="section-label">02 / Scope</p>
+                <h2 id="scope-title">End-to-end,<br>where it matters.</h2>
             </div>
+            <ol class="scope-list">
+                <li>
+                    <span class="scope-number">01</span>
+                    <h3>Product Engineering</h3>
+                    <p>Useful, thoughtful applications shaped around real user and business needs.</p>
+                </li>
+                <li>
+                    <span class="scope-number">02</span>
+                    <h3>Data &amp; Integrations</h3>
+                    <p>Clean, dependable pipelines that connect systems and turn raw inputs into useful data.</p>
+                </li>
+                <li>
+                    <span class="scope-number">03</span>
+                    <h3>Applied AI</h3>
+                    <p>Traceable LLM workflows that turn unstructured input into usable, structured results.</p>
+                </li>
+                <li>
+                    <span class="scope-number">04</span>
+                    <h3>Services &amp; Systems</h3>
+                    <p>Stable APIs, background processing, and shared foundations built for maintainability.</p>
+                </li>
+                <li>
+                    <span class="scope-number">05</span>
+                    <h3>Operations</h3>
+                    <p>Deployment, observability, automation, and production support without handoff gaps.</p>
+                </li>
+            </ol>
         </section>
 
-        <section id="contact" class="section contact" aria-labelledby="contact-heading" role="region">
-            <div class="container">
-                <h2 id="contact-heading">Contact</h2>
-                <p>Interested in collaborating? Drop me a note or connect.</p>
-                <div class="contact-methods">
-                    <a class="contact-card" href="mailto:alexbanham2016@gmail.com" data-analytics data-event="Contact: Email">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                            <polyline points="22,6 12,13 2,6"/>
-                        </svg>
-                        <div>
-                            <span class="contact-label">Email</span>
-                            <span class="contact-value">alexbanham2016@gmail.com</span>
-                        </div>
-                    </a>
-                    <a class="contact-card" href="https://linkedin.com/in/alexbanham" target="_blank" rel="noopener" data-analytics data-event="Contact: LinkedIn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                        </svg>
-                        <div>
-                            <span class="contact-label">LinkedIn</span>
-                            <span class="contact-value">Connect on LinkedIn</span>
-                        </div>
-                    </a>
-                    <a class="contact-card" href="https://github.com/alexbanham" target="_blank" rel="noopener" data-analytics data-event="Contact: GitHub">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                        <div>
-                            <span class="contact-label">GitHub</span>
-                            <span class="contact-value">View my code</span>
-                        </div>
-                    </a>
-                </div>
-                <p class="small-note">Prefer a PDF? <a class="inline-link" href="./media/Alex%20Banham%20Resume.pdf" download data-analytics data-event="Resume: Download (contact)">Download my resume</a>.</p>
+        <section class="principle" aria-label="Working approach">
+            <p class="section-label">03 / Approach</p>
+            <blockquote>Understand the problem. Build the right thing. Keep improving it.</blockquote>
+        </section>
+
+        <section class="contact" id="contact" aria-labelledby="contact-title">
+            <p class="section-label">04 / Contact</p>
+            <div>
+                <h2 id="contact-title">Let’s build something useful.</h2>
+                <a class="contact-email" href="mailto:alexbanham2016@gmail.com">alexbanham2016@gmail.com</a>
+            </div>
+            <div class="contact-links">
+                <a href="https://github.com/alexbanham" target="_blank" rel="noopener">GitHub ↗</a>
+                <a href="https://www.linkedin.com/in/alexbanham/" target="_blank" rel="noopener">LinkedIn ↗</a>
             </div>
         </section>
     </main>
 
-    <footer class="site-footer">
-        <div class="container">
-            <span>© <span id="year"></span> Alex Banham</span>
-            <div class="footer-links">
-                <a class="footer-link" href="https://github.com/alexbanham" target="_blank" rel="noopener" aria-label="GitHub" data-analytics data-event="Footer: GitHub">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                </a>
-                <a class="footer-link" href="https://www.linkedin.com/in/alexbanham/" target="_blank" rel="noopener" aria-label="LinkedIn" data-analytics data-event="Footer: LinkedIn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                    </svg>
-                </a>
-            </div>
-        </div>
-        <button class="back-to-top" aria-label="Back to top">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 15l-6-6-6 6"/>
-            </svg>
-        </button>
+    <footer>
+        <span>© <span id="year">2026</span> Alex Banham</span>
+        <a href="#top">Back to top ↑</a>
     </footer>
 
-    <div class="transition-overlay" aria-hidden="true"></div>
-    <div id="sr-announce" class="sr-only" role="status" aria-live="polite"></div>
-
-    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
-    <script defer src="https://unpkg.com/@studio-freight/lenis@1.0.37/bundled/lenis.min.js"></script>
-    <script defer data-domain="alexbanham.github.io" src="https://plausible.io/js/script.js"></script>
-    <script defer src="./scripts/main.js"></script>
+    <script src="./scripts/main.js"></script>
 </body>
 </html>
-
-
